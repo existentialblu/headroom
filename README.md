@@ -12,7 +12,7 @@ medications or anything else changed.
 Hosted at [wobble-analysis-tool.xyz/headroom/](https://wobble-analysis-tool.xyz/headroom/),
 alongside the other [Wobble Analysis Tool](https://wobble-analysis-tool.xyz/) companions.
 
-Current version: **v0.4, experimental.** See [Caveats](#caveats) before
+Current version: **v0.5, experimental.** See [Caveats](#caveats) before
 reading anything into it.
 
 ## Run
@@ -48,7 +48,9 @@ forward and back in time. Zoom and rotation are fixed on purpose.
   percentiles of rising and falling slew, each placed at the mean PS while
   rising or falling. Tall and narrow means quick, small corrections; wide and
   tall means large swings; a lopsided kite means it climbs differently than it
-  falls.
+  falls. Moves of a single recording step (0.02 cmH₂O on ResMed files) are
+  ignored for the top and bottom corners, because some machines and firmware
+  log PS with one-step dither that would otherwise distort them.
   We call it a kite. Strictly it's a four-corner glyph; it only becomes a
   geometric kite on nights when rises and falls mirror each other, which makes
   the lopsidedness the interesting part.
@@ -97,7 +99,7 @@ Shown as tiles for the selected night and exported as CSV columns:
 | `cloud_slew_sd_cmh2o_per_s` | Standard deviation of the rate of change: how vigorously PS moved. |
 | `cloud_slew_skew` | Skewness of the rate of change. Negative: quick drops and gradual climbs. |
 | `cloud_ps_slew_corr` | Correlation between PS and its rate of change. |
-| `cloud_pct_still` | Percent of samples where PS did not move. |
+| `cloud_pct_still` | Percent of samples where PS did not move, or moved by only one recording step. |
 | `cloud_entropy_bits` | Shannon entropy of the fixed grid below: how much of the plane the night covered. |
 | `cloud_cells_used` | Number of fixed-grid cells the night visited. |
 | `ps_step_cmh2o` | Smallest PS change the file can record, from the EDF header. |
@@ -170,9 +172,10 @@ someone else. Please read these before relying on anything it shows.
 - **Machines and firmware can change the picture.** Different machines,
   or different firmware on the same machine, may log PS differently: holding
   it flat between corrections, or dithering it by one recording step. That
-  can move stillness, the kite's tips and the cloud columns without any change
-  in therapy. Check the `machine` and `pct_moves_single_step` columns before
-  comparing across a hardware or firmware change.
+  can move the cloud columns without any change in therapy. Since v0.5 the
+  kite's tips and stillness ignore single-step moves, which removes the
+  dither seen so far; check the `machine` and `pct_moves_single_step` columns
+  before comparing across a hardware or firmware change anyway.
 - **Experimental means it will change.** Metrics, defaults and the layout may
   change between versions, so numbers from different versions may not compare.
 
