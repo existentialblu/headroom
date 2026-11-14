@@ -49,6 +49,9 @@ forward and back in time. Zoom and rotation are fixed on purpose.
   rising or falling. Tall and narrow means quick, small corrections; wide and
   tall means large swings; a lopsided kite means it climbs differently than it
   falls.
+  We call it a kite. Strictly it's a four-corner glyph; it only becomes a
+  geometric kite on nights when rises and falls mirror each other, which makes
+  the lopsidedness the interesting part.
 
 ### Marks, eras and the difference view
 
