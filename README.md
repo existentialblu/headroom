@@ -12,7 +12,7 @@ medications or anything else changed.
 Hosted at [wobble-analysis-tool.xyz/headroom/](https://wobble-analysis-tool.xyz/headroom/),
 alongside the other [Wobble Analysis Tool](https://wobble-analysis-tool.xyz/) companions.
 
-Current version: **v0.1, experimental.** See [Caveats](#caveats) before
+Current version: **v0.2, experimental.** See [Caveats](#caveats) before
 reading anything into it.
 
 ## Run
@@ -53,6 +53,15 @@ forward and back in time. Zoom and rotation are fixed on purpose.
   geometric kite on nights when rises and falls mirror each other, which makes
   the lopsidedness the interesting part.
 
+### Rise ÷ fall
+
+The kite's rise speed divided by its fall speed. Above 1, PS climbed faster
+than it backed off; below 1, it climbed more gently than it backed off.
+Whether one is better is an open question. Early observations in one person
+suggest a value somewhat below 1 went with steadier nights, which would fit
+the idea that a high-loop-gain system is destabilized by overshoot, but this
+has not been tested across people.
+
 ### Marks, eras and the difference view
 
 **Mark this night** starts a new era at the current night, with a label you
@@ -68,12 +77,22 @@ The **Eras** strip pools each era into one slice, side by side.
 
 ### Numbers per night
 
-| Name | Meaning |
+Shown as tiles for the selected night and exported as CSV columns:
+
+| Column | Meaning |
 | --- | --- |
-| At floor / At ceiling | Share of the night PS was within a tolerance (default 0.2 cmH₂O) of its min or max |
-| PS travel | Total PS movement, up and down added together, per minute |
-| Average one-way run | Average time PS kept moving in one direction before reversing |
-| Shape corners | The kite described above |
+| `date` | Night, as YYYY-MM-DD. Sessions starting before noon count toward the previous night. |
+| `era` | Label of the era the night belongs to. "Start" before the first mark. |
+| `hours_recorded` | Hours of pressure data. |
+| `ps_min_limit_cmh2o`, `ps_max_limit_cmh2o` | PS floor and ceiling in force. |
+| `limit_source` | `STR.edf` (machine settings), `observed` (estimated from the data) or `typed`. |
+| `pct_night_at_floor`, `pct_night_at_ceiling` | Percent of the night PS was within the tolerance (default 0.2 cmH₂O) of each limit. |
+| `ps_travel_cmh2o_per_min` | Total PS movement, ups and downs added together, per minute. |
+| `avg_one_way_run_s` | Average seconds PS kept moving one way before reversing. |
+| `kite_ps_p10_cmh2o`, `kite_ps_p90_cmh2o` | Kite left and right corners. |
+| `kite_rise_at_ps_cmh2o`, `kite_rise_speed_cmh2o_per_s` | Kite top corner: where and how fast PS typically rose. |
+| `kite_fall_at_ps_cmh2o`, `kite_fall_speed_cmh2o_per_s` | Kite bottom corner: where and how fast PS typically fell (speed as a positive number). |
+| `rise_fall_ratio` | Rise speed ÷ fall speed. Blank if PS never fell. |
 
 ### Exports
 
@@ -83,6 +102,16 @@ The **Eras** strip pools each era into one slice, side by side.
 - **Save all nights (CSV):** one row per night, including era labels and all
   shape corners, for charting elsewhere.
 - **Save eras image:** the era strip.
+- **Save column guide (MD):** a plain-language description of every CSV
+  column, the eras in the export and the caveats below.
+
+### Using the CSV with an AI or a spreadsheet
+
+The column names carry their units, and the column guide is written to be
+handed over alongside the CSV. If you ask an AI model to analyse your
+export, give it both files so it knows what each number means and what the
+numbers can't tell it. Keep in mind it is reading the same experimental
+measures; it can find patterns, but it can't make them clinical.
 
 ## Caveats
 
