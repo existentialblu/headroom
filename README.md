@@ -12,7 +12,7 @@ medications or anything else changed.
 Hosted at [wobble-analysis-tool.xyz/headroom/](https://wobble-analysis-tool.xyz/headroom/),
 alongside the other [Wobble Analysis Tool](https://wobble-analysis-tool.xyz/) companions.
 
-Current version: **v0.2, experimental.** See [Caveats](#caveats) before
+Current version: **v0.3, experimental.** See [Caveats](#caveats) before
 reading anything into it.
 
 ## Run
@@ -93,6 +93,29 @@ Shown as tiles for the selected night and exported as CSV columns:
 | `kite_rise_at_ps_cmh2o`, `kite_rise_speed_cmh2o_per_s` | Kite top corner: where and how fast PS typically rose. |
 | `kite_fall_at_ps_cmh2o`, `kite_fall_speed_cmh2o_per_s` | Kite bottom corner: where and how fast PS typically fell (speed as a positive number). |
 | `rise_fall_ratio` | Rise speed ÷ fall speed. Blank if PS never fell. |
+| `cloud_ps_mean_cmh2o`, `cloud_ps_sd_cmh2o` | Mean and standard deviation of PS. |
+| `cloud_slew_sd_cmh2o_per_s` | Standard deviation of the rate of change: how vigorously PS moved. |
+| `cloud_slew_skew` | Skewness of the rate of change. Negative: quick drops and gradual climbs. |
+| `cloud_ps_slew_corr` | Correlation between PS and its rate of change. |
+| `cloud_pct_still` | Percent of samples where PS did not move. |
+| `cloud_entropy_bits` | Shannon entropy of the fixed grid below: how much of the plane the night covered. |
+| `cloud_cells_used` | Number of fixed-grid cells the night visited. |
+
+### The cloud grid
+
+**Save cloud grid (CSV)** exports each night's cloud itself, for comparing or
+clustering nights elsewhere. The grid is fixed for every night: 0.5 cmH₂O of
+PS by 0.1 cmH₂O/s of rate of change, with the rate bins centred on zero so the
+middle bin holds samples where PS sat still. Long format, one row per night per
+occupied cell, with `pct_of_night` summing to 100 per night. It is computed
+from the raw 2-second samples, without the smoothing used in the picture.
+
+| Column | Meaning |
+| --- | --- |
+| `date`, `era` | As in the main CSV. |
+| `ps_bin_low_cmh2o`, `ps_bin_high_cmh2o` | PS range of the cell. |
+| `slew_bin_low_cmh2o_per_s`, `slew_bin_high_cmh2o_per_s` | Rate-of-change range of the cell; positive is rising. |
+| `pct_of_night` | Share of the night's samples in the cell. |
 
 ### Exports
 
@@ -102,13 +125,16 @@ Shown as tiles for the selected night and exported as CSV columns:
 - **Save all nights (CSV):** one row per night, including era labels and all
   shape corners, for charting elsewhere.
 - **Save eras image:** the era strip.
+- **Save cloud grid (CSV):** the cloud grid described above.
 - **Save column guide (MD):** a plain-language description of every CSV
-  column, the eras in the export and the caveats below.
+  column, the cloud grid file, the eras in the export and the caveats below.
 
 ### Using the CSV with an AI or a spreadsheet
 
 The column names carry their units, and the column guide is written to be
-handed over alongside the CSV. If you ask an AI model to analyse your
+handed over alongside the CSVs. The main CSV gives a model one row per night
+to trend; the cloud grid gives it the full shape of each night to compare,
+average by era or cluster. If you ask an AI model to analyse your
 export, give it both files so it knows what each number means and what the
 numbers can't tell it. Keep in mind it is reading the same experimental
 measures; it can find patterns, but it can't make them clinical.
