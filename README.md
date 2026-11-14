@@ -12,7 +12,7 @@ medications or anything else changed.
 Hosted at [wobble-analysis-tool.xyz/headroom/](https://wobble-analysis-tool.xyz/headroom/),
 alongside the other [Wobble Analysis Tool](https://wobble-analysis-tool.xyz/) companions.
 
-Current version: **v0.5, experimental.** See [Caveats](#caveats) before
+Current version: **v0.5.3, experimental.** See [Caveats](#caveats) before
 reading anything into it.
 
 ## Run
@@ -161,8 +161,9 @@ someone else. Please read these before relying on anything it shows.
   between its 1st and 99th percentiles) are treated as fixed pressure support
   and skipped.
 - **Rails can be estimates.** Without `STR.edf`, the floor is the lowest PS
-  seen that night and the ceiling the highest PS seen within a week either side
-  of it. This blurs settings changes by about a week. You can type the real
+  level the night spent at least 1% of its time at (so brief dips at session
+  starts and ends don't count) and the ceiling the highest PS seen within a week
+  either side of it. This blurs settings changes by about a week. You can type the real
   limits under Rail settings.
 - **Coarse time resolution.** Slew comes from 2-second samples, roughly half a
   breath. It shows how the servo moved across breaths, not within one.
