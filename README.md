@@ -12,7 +12,7 @@ medications or anything else changed.
 Hosted at [wobble-analysis-tool.xyz/headroom/](https://wobble-analysis-tool.xyz/headroom/),
 alongside the other [Wobble Analysis Tool](https://wobble-analysis-tool.xyz/) companions.
 
-Current version: **v0.3, experimental.** See [Caveats](#caveats) before
+Current version: **v0.4, experimental.** See [Caveats](#caveats) before
 reading anything into it.
 
 ## Run
@@ -100,6 +100,9 @@ Shown as tiles for the selected night and exported as CSV columns:
 | `cloud_pct_still` | Percent of samples where PS did not move. |
 | `cloud_entropy_bits` | Shannon entropy of the fixed grid below: how much of the plane the night covered. |
 | `cloud_cells_used` | Number of fixed-grid cells the night visited. |
+| `ps_step_cmh2o` | Smallest PS change the file can record, from the EDF header. |
+| `pct_moves_single_step` | Of the samples where PS changed, the percent that changed by exactly one recording step. |
+| `machine` | Serial and model/version codes (SRN, MID, VID) from the PLD header. |
 
 ### The cloud grid
 
@@ -164,6 +167,12 @@ someone else. Please read these before relying on anything it shows.
 - **No verdicts.** Resting on the floor through stable breathing is normal for
   ASV. The tool shows positions and shapes; what counts as good or bad for a
   particular person is not established here.
+- **Machines and firmware can change the picture.** Different machines,
+  or different firmware on the same machine, may log PS differently: holding
+  it flat between corrections, or dithering it by one recording step. That
+  can move stillness, the kite's tips and the cloud columns without any change
+  in therapy. Check the `machine` and `pct_moves_single_step` columns before
+  comparing across a hardware or firmware change.
 - **Experimental means it will change.** Metrics, defaults and the layout may
   change between versions, so numbers from different versions may not compare.
 
