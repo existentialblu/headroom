@@ -58,11 +58,11 @@ forward and back in time. Zoom and rotation are fixed on purpose.
 ### Rise ÷ fall
 
 The kite's rise speed divided by its fall speed. Above 1, PS climbed faster
-than it backed off; below 1, it climbed more gently than it backed off.
-Whether one is better is an open question. Early observations in one person
-suggest a value somewhat below 1 went with steadier nights, which would fit
-the idea that a high-loop-gain system is destabilized by overshoot, but this
-has not been tested across people.
+than it backed off; below 1, it climbed more gently than it backed off. In two
+years of one person's data on two ResMed machines, it stayed close to 0.9
+through settings changes, a firmware change and a medication change, so it may
+mostly reflect the machine's algorithm rather than the person. Whether it
+differs between people or machines is an open question.
 
 ### Marks, eras and the difference view
 
